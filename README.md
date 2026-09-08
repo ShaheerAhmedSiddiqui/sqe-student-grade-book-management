@@ -44,6 +44,7 @@ sqe-student-grade-book-management/
 │       └── GitHub Actions workflows
 │
 ├── index.js
+├── index.html
 ├── package.json
 ├── README.md
 ├── LICENSE
@@ -62,6 +63,7 @@ sqe-student-grade-book-management/
 | `screenshots/`       | Stores screenshots and evidence of project activities               |
 | `.github/workflows/` | Contains GitHub Actions workflow files                              |
 | `index.js`           | Entry point for running and demonstrating the application           |
+| `index.html`         | Frontend Interface for the demonstration of work                    |
 | `package.json`       | Contains project configuration and dependencies                     |
 | `README.md`          | Provides project information and documentation                      |
 | `LICENSE`            | Defines the project's licensing terms                               |
