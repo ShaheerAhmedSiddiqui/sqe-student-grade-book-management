@@ -32,13 +32,19 @@ E:\universityMaterial\5thSemester\SoftwareQualityEngineering\SQE_Labs\lab-5\sqe-
 > jest
 
  PASS  tests/test_roster.test.js
+
  PASS  tests/test_validate_name.test.js
+
  PASS  tests/test_letter_grade.test.js
 
 Test Suites: 3 passed, 3 total
+
 Tests:       14 passed, 14 total
+
 Snapshots:   0 total
+
 Time:        1.552 s
+
 Ran all test suites.
 
 
