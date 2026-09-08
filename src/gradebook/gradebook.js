@@ -10,7 +10,7 @@ class Student {
             throw new TypeError("Score must be a number");
         }
 
-        if (score < 0 || score > 99) {
+        if (score < 0 || score > 100) {
             throw new RangeError("Score must be between 0 and 100");
         }
 
@@ -51,9 +51,27 @@ class Student {
 
         return "F";
     }
+
+   
 }
 
+ function validateName(name) {
+    if (typeof name !== "string" || name.length === 0) {
+        throw new Error("Invalid name");
+    }
 
+    if (name.length > 50) {
+        throw new Error("Name cannot exceed 50 characters");
+    }
+
+    if (!/^[A-Za-z -]+$/.test(name)) {
+        throw new Error(
+            "Name can contain only letters, spaces, and hyphens"
+        );
+    }
+
+    return true;
+}
 class GradeBook {
     constructor() {
         this.students = [];
@@ -81,8 +99,28 @@ class GradeBook {
     }
 }
 
+class Roster {
+    constructor() {
+        this.students = [];
+    }
 
+    addStudent(student) {
+        const scoreCount = student.scores.length;
+
+        // Valid class: 1-6 scores
+        if (scoreCount < 1 || scoreCount > 6) {
+            throw new RangeError(
+                "Student must have between 1 and 6 scores"
+            );
+        }
+
+        this.students.push(student);
+    }
+}
 module.exports = {
     Student,
-    GradeBook
+    GradeBook,
+    validateName,
+    Roster
+
 };
