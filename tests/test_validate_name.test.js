@@ -1,5 +1,29 @@
 const { validateName } = require("../src/gradebook/gradebook");
 
+// ===============================
+// LAB 6 - Boundary Value Analysis
+// ===============================
+
+describe("validateName - Boundary Value Analysis", () => {
+
+    test("BVA: name with 1 character should be valid", () => {
+        expect(validateName("A")).toBe(true);
+    });
+
+    test("BVA: name with 49 characters should be valid", () => {
+        const name = "A".repeat(49);
+
+        expect(validateName(name)).toBe(true);
+    });
+
+    test("BVA: name with 50 characters should be valid", () => {
+        const name = "A".repeat(50);
+
+        expect(validateName(name)).toBe(true);
+    });
+
+});
+
 describe("validateName - Equivalence Partitioning", () => {
 
     test("valid typical name: Shaheer Ahmed", () => {
@@ -29,3 +53,4 @@ describe("validateName - Equivalence Partitioning", () => {
     });
 
 });
+
