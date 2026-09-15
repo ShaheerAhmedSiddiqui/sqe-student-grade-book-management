@@ -52,10 +52,10 @@ class Student {
         return "F";
     }
 
-   
+
 }
 
- function validateName(name) {
+function validateName(name) {
     if (typeof name !== "string" || name.length === 0) {
         throw new Error("Invalid name");
     }
