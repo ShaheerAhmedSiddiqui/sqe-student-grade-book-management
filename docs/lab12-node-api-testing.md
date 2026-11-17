@@ -53,7 +53,8 @@ npm start
 Default API URL: `http://localhost:3000`.
 
 ## Test execution record
-The user's earlier run on the initial API implementation reported 78 passing tests and 4 failing name-validation tests. Those four failures exposed the whitespace/hyphen-only name defect. After this branch is pulled, run `npm install` and `npm test` again and replace this historical note with the final local Jest summary. Do not claim a final all-green run until it has been executed.
+
+**Verified local execution (17 November 2026):** `npm test` completed successfully with **5 test suites passed, 5 total; 91 tests passed, 91 total; 0 failed; 0 snapshots; 7.329 seconds**. The run included the original project unit tests and the Lab 12 API/contract tests. This result was supplied from the user's PowerShell run on the completion branch.
 
 ## GitHub workflow
 Implementation is developed on `feature/lab12-complete`. A defect issue is linked in the completion pull request. The original PR #36 is already merged and represents the earlier partial API implementation; this branch completes and corrects it in a follow-up PR.
