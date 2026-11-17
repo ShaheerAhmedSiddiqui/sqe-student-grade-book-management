@@ -2,13 +2,14 @@
   "name": "sqe-student-grade-book-management",
   "version": "1.0.0",
   "description": "## Project Description",
-  "main": "index.js",
+  "main": "src/gradebook/api-server.js",
   "directories": {
     "doc": "docs",
     "test": "test"
   },
   "scripts": {
-    "test": "jest"
+    "test": "jest --runInBand",
+    "start": "node src/gradebook/api-server.js"
   },
   "keywords": [],
   "author": "",
