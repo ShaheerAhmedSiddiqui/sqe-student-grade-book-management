@@ -1,40 +1,59 @@
-# Lab 12 – API Testing (Node.js Track)
+# Lab 12 – API Testing (Node.js adaptation)
 
 ## Objective
-Apply the Lab 12 API-testing techniques to the existing Student GradeBook Management project using Node.js, HTTP, and Jest rather than Java, Spring Boot, and REST Assured.
+Apply the Lab 12 API-testing workflow to the existing Student GradeBook Management project. The supplied practical uses Java/Spring Boot/REST Assured and a LibraryHub domain. This implementation preserves the testing outcomes while using the repository's Node.js domain, built-in HTTP server and Jest.
 
 ## Technology mapping
-
-| Java lab tool/concept | Node.js project equivalent |
+| Lab technology/concept | Existing project equivalent |
 |---|---|
-| Spring Boot REST controller | Built-in `node:http` server (`src/gradebook/api-server.js`) |
-| REST Assured + JUnit 5 | Jest API tests (`tests/api/api.test.js`) |
-| `@BeforeEach` state reset | Fresh API server and in-memory domain state before every test |
-| JSON schema contract assertions | Schema definition plus exact response-key/type/value assertions in Jest |
-| curl/Postman manual exploration | Documented HTTP requests in `docs/api-exploration.md` |
+| Spring Boot controller | Node.js `node:http` server |
+| JUnit 5 + REST Assured | Jest HTTP integration tests using Node HTTP client |
+| Random-port application tests | Jest starts server on an ephemeral port |
+| Before-each state reset | New GradeBook/Roster instance per test |
+| JSON Schema validator | Ajv JSON Schema validation |
+| curl/Postman exploration | `docs/api-exploration.md` |
 
-## Tasks completed in the implementation
+## Task 1 – API surface
+Six endpoints are implemented:
+1. POST `/students`
+2. GET `/students`
+3. GET `/students/:rollNo`
+4. GET `/students/search?name=...`
+5. POST `/students/:rollNo/scores`
+6. GET `/students/:rollNo/grade`
 
-1. API surface: create student, list students, get student by roll number, search by name, and health check.
-2. Manual exploration: request/response examples cover successful, missing-field, unknown-resource, boundary, and unsupported-media-type cases.
-3. Positive API tests: create, list, get, and case-insensitive search.
-4. Negative/boundary API tests: unknown student, missing name, invalid roll number, score-count lower/upper boundaries, duplicate roll number, score boundaries and wrong types, invalid name, unsupported media type, malformed JSON.
-5. Contract/performance assertions: exact student response fields, JSON content type, a response schema and a generous 1000 ms smoke threshold.
+The endpoint contract uses 201 for student creation, 200 for successful reads/score addition, 400 for invalid input, 404 for unknown records, and 415 for unsupported media types. Student representations have a stable JSON shape.
 
-## Run
+## Task 2 – Manual exploration
+All six endpoints and representative invalid requests are documented in `docs/api-exploration.md`. Manual examples are expected responses; the student should run them in Postman/curl and attach actual screenshots if required by the instructor.
 
-```bash
+## Task 3 – Positive tests
+The API test suite contains one positive test for each of the six endpoints. Each checks HTTP status and JSON content type, response shape, and meaningful response values.
+
+## Task 4 – Negative and boundary tests
+The tests cover:
+- Equivalence partitioning: missing name, invalid roll number types, unknown records, missing search parameter.
+- Boundary value analysis: score values -1, 0, 1, 99, 100, 101; score-count boundaries 0, 1, 6, 7; maximum six scores.
+- Conflict: duplicate roll number.
+- Robustness: malformed JSON and unsupported media type.
+- State-dependent validation: adding a score to an unknown student.
+
+## Task 5 – Schema and contract assertions
+`src/test/resources/schemas/student.schema.json` specifies required properties, types, numeric bounds, score-count limits, grade enum and rejects additional properties. The API test compiles and applies the schema using Ajv to the actual POST response. A response-time smoke test asserts GET /students completes in less than 1000 ms. Shared machines can be noisy, so this threshold is deliberately generous and is not a performance benchmark.
+
+## Defect report and correction
+The existing name validator accepted whitespace-only and hyphen-only strings because its regular expression allowed spaces/hyphens without requiring a letter. This defect was reproduced by existing unit tests and API-level negative cases. The validator now additionally requires at least one ASCII letter. The schema also requires a name containing a letter. GitHub Issue #37: https://github.com/ShaheerAhmedSiddiqui/sqe-student-grade-book-management/issues/37 (reproduction steps, expected/actual behavior and severity).
+
+## Run locally
+```powershell
 npm install
 npm test
 npm start
 ```
+Default API URL: `http://localhost:3000`.
 
-Server default: `http://localhost:3000`. Override with `PORT=4000 npm start`.
+## Test execution record
+The user's earlier run on the initial API implementation reported 78 passing tests and 4 failing name-validation tests. Those four failures exposed the whitespace/hyphen-only name defect. After this branch is pulled, run `npm install` and `npm test` again and replace this historical note with the final local Jest summary. Do not claim a final all-green run until it has been executed.
 
-## Notes
-
-The project's existing domain model limits a roster entry to 1–6 scores and each score to 0–100. The API validates request data and reports errors as JSON. This implementation does not change the Java lab's unrelated LibraryHub/book/fine requirements; it adapts the same testing concepts to the existing GradeBook requirements and domain.
-
-## Test isolation
-
-The `createApi()` factory creates fresh `GradeBook` and `Roster` instances. Jest starts and closes a new server in `beforeEach`/`afterEach`, so each test begins with empty in-memory state.
+## GitHub workflow
+Implementation is developed on `feature/lab12-complete`. A defect issue is linked in the completion pull request. The original PR #36 is already merged and represents the earlier partial API implementation; this branch completes and corrects it in a follow-up PR.

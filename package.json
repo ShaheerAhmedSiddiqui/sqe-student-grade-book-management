@@ -1,20 +1,14 @@
 {
   "name": "sqe-student-grade-book-management",
   "version": "1.0.0",
-  "description": "## Project Description",
+  "description": "Student GradeBook Management System - SQE Lab 12 API testing",
   "main": "src/gradebook/api-server.js",
-  "directories": {
-    "doc": "docs",
-    "test": "test"
-  },
   "scripts": {
     "test": "jest --runInBand",
     "start": "node src/gradebook/api-server.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "devDependencies": {
+    "ajv": "^8.17.1",
     "jest": "^30.5.1"
   }
 }
