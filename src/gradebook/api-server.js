@@ -18,7 +18,12 @@ function createApi() {
     const server = http.createServer(async (req, res) => {
         const url = new URL(req.url, "http://localhost");
         try {
-            if (req.method === "POST" && (url.pathname === "/students" || /^\/students\/\d+\/scores$/.test(url.pathname))) {
+            if (req.method === "POST" &&
+                (
+                    url.pathname === "/students" ||
+                    /^\/students\/\d+\/scores$/.test(url.pathname)
+                )
+            ) {
                 if (!req.headers["content-type"]?.toLowerCase().includes("application/json"))
                     return send(res, 415, { error: "Content-Type must be application/json" });
                 const body = await readJson(req);
@@ -50,12 +55,12 @@ function createApi() {
                 const student = gradeBook.findStudentByName(name);
                 return student ? send(res, 200, studentJson(student)) : send(res, 404, { error: "Student not found" });
             }
-            const gradeMatch = url.pathname.match(/^\/students\/(\d+)\/grade$/);
-            if (req.method === "GET" && gradeMatch) {
+            const gradeMatch = url.pathname.match(/^\/students\/(\d+)\/grade$/); 
+                if (req.method === "GET" && gradeMatch) {
                 const student = gradeBook.findStudentByRollNo(gradeMatch[1]);
                 return student ? send(res, 200, { rollNo: student.rollNo, average: student.average(), grade: student.gradeLetter() }) : send(res, 404, { error: "Student not found" });
             }
-            const studentMatch = url.pathname.match(/^\/students\/(\d+)$/);
+                const studentMatch = url.pathname.match(/^\/students\/(\d+)$/);
             if (req.method === "GET" && studentMatch) {
                 const student = gradeBook.findStudentByRollNo(studentMatch[1]);
                 return student ? send(res, 200, studentJson(student)) : send(res, 404, { error: "Student not found" });
@@ -66,7 +71,12 @@ function createApi() {
     return { server, gradeBook, roster };
 }
 function studentJson(student) {
-    return { name: student.name, rollNo: student.rollNo, scores: student.scores, average: student.average(), grade: student.gradeLetter() };
+    return { 
+        name: student.name, 
+        rollNo: student.rollNo, 
+        scores: student.scores, 
+        average: student.average(), 
+        grade: student.gradeLetter() };
 }
 if (require.main === module) {
     const { server } = createApi();
