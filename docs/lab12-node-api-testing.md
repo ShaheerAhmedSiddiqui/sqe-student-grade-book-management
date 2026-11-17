@@ -42,7 +42,7 @@ The tests cover:
 `src/test/resources/schemas/student.schema.json` specifies required properties, types, numeric bounds, score-count limits, grade enum and rejects additional properties. The API test compiles and applies the schema using Ajv to the actual POST response. A response-time smoke test asserts GET /students completes in less than 1000 ms. Shared machines can be noisy, so this threshold is deliberately generous and is not a performance benchmark.
 
 ## Defect report and correction
-The existing name validator accepted whitespace-only and hyphen-only strings because its regular expression allowed spaces/hyphens without requiring a letter. This defect was reproduced by existing unit tests and API-level negative cases. The validator now additionally requires at least one ASCII letter. The schema also requires a name containing a letter. See the linked GitHub issue for reproduction, expected/actual behavior and severity.
+The existing name validator accepted whitespace-only and hyphen-only strings because its regular expression allowed spaces/hyphens without requiring a letter. This defect was reproduced by existing unit tests and API-level negative cases. The validator now additionally requires at least one ASCII letter. The schema also requires a name containing a letter. GitHub Issue #37: https://github.com/ShaheerAhmedSiddiqui/sqe-student-grade-book-management/issues/37 (reproduction steps, expected/actual behavior and severity).
 
 ## Run locally
 ```powershell
